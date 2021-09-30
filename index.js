@@ -52,7 +52,9 @@ async function main() {
     const py = getPythonVersion();
     const cacheKey = `pre-commit-2-${hashString(py)}-${hashFile('.pre-commit-config.yaml')}`;
     const restored = await cache.restoreCache(cachePaths, cacheKey);
+    core.info(`Push: ${push}`);
     const ret = await exec.exec('pre-commit', args, {ignoreReturnCode: push});
+    core.info(`Ret: ${ret}`);
     if (!restored) {
         try {
             await cache.saveCache(cachePaths, cacheKey);
